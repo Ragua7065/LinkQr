@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container" id="c2">
+    <form action="{{ url_for('dash.short_url') }}" method="POST">
+        <input type="text" id="in-box" placeholder="type url" name="url">
+        <button type="submit">Add Url</button>
+    </form>
+    <form action="{{ url_for('dash.clear') }}">
+        <button type="submit">Clear</button>
+    </form>
+    {% if Urls %}
+    <div class="small-container">
+        <table>
+            <thead>
+                <tr>
+                    <tb>S.no</tb>
+                    <tb>Url</tb>
+                    <tb>short-url</tb>
+                    <tb>QR</tb>
+                </tr>
+            </thead>
+            <br>
+            {% for url in Urls %}
+            <tr>
+                <tb>{{loop.index}}</tb>
+                <tb><a href="{{url.url}}" target="_blank">main</a></tb>
+                <tb><a href="/{{url.code}}" target="_blank">short</a></tb>
+                <tb><form action="{{ url_for('dash.generate_qr',short_code=url.code) }}">
+                    <button id="qr" type="submit">QR</button>
+                </form></tb>
+                <br>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% else %}
+    <p id="p1">No url created</p>
+    {% endif %}
+</div>
+{% endblock %}
